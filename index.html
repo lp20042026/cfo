@@ -1,0 +1,1378 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Финансовый директор на аутсорсе</title>
+  <script src="./lucide.min.js"></script>
+  <style>
+    :root {
+      --paper: #f7f5f1;
+      --panel: #fffdfa;
+      --ink: #202a31;
+      --green: #154f4a;
+      --green-dark: #2f4c3d;
+      --line: #e5e1d8;
+      --muted: #6d7d84;
+      --blue-soft: #dceaf1;
+      --mint: #c8ead5;
+      --gold: #ffd257;
+      --white: #ffffff;
+      --red: #b9473d;
+      --amber: #d59a2a;
+      --orange: #c97942;
+      --font: Inter, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: var(--font);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, var(--paper) 0%, #f4f1ec 100%);
+      color: var(--ink);
+      font-family: var(--font);
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 56px;
+      background: rgba(247, 245, 241, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      flex: 0 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 650;
+    }
+
+    .brand-mark {
+      display: none;
+    }
+
+    .brand span {
+      overflow-wrap: anywhere;
+    }
+
+    .step-pill {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .telegram-btn {
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border-radius: 9px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 650;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .telegram-btn:hover {
+      background: #0f4541;
+      transform: translateY(-1px);
+    }
+
+    .progress {
+      height: 6px;
+      background: #ece8df;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--green);
+      transition: width 0.45s ease;
+    }
+
+    main {
+      width: min(100%, 1120px);
+      margin: 0 auto;
+      padding: 22px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .screen.is-entering {
+      animation: fade-in 0.24s ease;
+    }
+
+    .panel {
+      padding: 40px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 18px 48px rgba(32, 42, 49, 0.055);
+    }
+
+    .quiz-card {
+      width: min(100%, 960px);
+      height: clamp(560px, calc(100vh - 170px), 640px);
+      align-content: center;
+      align-self: center;
+    }
+
+    .quiz-card.stack {
+      gap: 20px;
+    }
+
+    .quiz-card h1 {
+      font-size: clamp(32px, 4.7vw, 48px);
+    }
+
+    .quiz-card h2 {
+      font-size: clamp(26px, 3.2vw, 34px);
+    }
+
+    .quiz-card .option {
+      padding: 15px 16px;
+    }
+
+    .quiz-card .question {
+      padding: 17px 18px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 24px;
+    }
+
+    .small-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 780px;
+      font-size: clamp(32px, 6vw, 56px);
+      line-height: 1.04;
+      font-weight: 720;
+      color: var(--ink);
+    }
+
+    h2 {
+      font-size: clamp(26px, 4vw, 38px);
+      line-height: 1.1;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    .lead {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .features,
+    .module-grid,
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .feature,
+    .slider-box {
+      padding: 18px;
+      border: 1px solid #d4e3e8;
+      border-radius: 18px;
+      background: var(--blue-soft);
+    }
+
+    .feature-title {
+      margin-bottom: 6px;
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .between {
+      justify-content: space-between;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .chip {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 16px;
+      font-weight: 650;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .primary-btn {
+      padding: 14px 26px;
+      background: var(--green);
+      color: var(--white);
+      box-shadow: 0 12px 26px rgba(21, 79, 74, 0.18);
+    }
+
+    .primary-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+    }
+
+    .secondary-btn {
+      padding: 12px 22px;
+      background: var(--white);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+
+    .secondary-btn:hover {
+      background: #f8fafb;
+    }
+
+    .question {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--blue-soft);
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: start;
+      gap: 14px;
+      padding: 18px;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--white);
+      color: var(--ink);
+      box-shadow: 0 8px 22px rgba(32, 42, 49, 0.035);
+    }
+
+    .option:hover,
+    .option.selected {
+      border-color: var(--green);
+      background: #f3faf6;
+      box-shadow: 0 0 0 3px rgba(21, 79, 74, 0.1);
+    }
+
+    .radio {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #cbd5db;
+      border-radius: 999px;
+      color: transparent;
+      margin-top: 2px;
+    }
+
+    .selected .radio {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+
+    .slider-box {
+      display: grid;
+      gap: 14px;
+    }
+
+    .value {
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--white);
+      color: var(--green);
+      font-size: 18px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--green);
+    }
+
+    .ticks {
+      display: flex;
+      justify-content: space-between;
+      color: #8a98a4;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      min-height: 30px;
+      padding: 5px 10px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chip.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+      align-items: start;
+      gap: 18px;
+      min-height: clamp(560px, calc(100vh - 170px), 650px);
+    }
+
+    .results > .panel,
+    .results > .offer {
+      min-height: 0;
+      overflow: visible;
+      padding: 24px;
+    }
+
+    .results .panel.stack,
+    .results .offer.stack,
+    .results .stack {
+      gap: 13px;
+    }
+
+    .results .small-stack {
+      gap: 8px;
+    }
+
+    .results h2 {
+      font-size: clamp(22px, 2.4vw, 30px);
+      line-height: 1.12;
+    }
+
+    .results .loss-box {
+      padding: 13px;
+      gap: 10px;
+    }
+
+    .results .bars {
+      gap: 9px;
+      padding-top: 9px;
+    }
+
+    .results .notice,
+    .results .method-note {
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .results .module-grid {
+      gap: 8px;
+    }
+
+    .results .module {
+      padding: 10px;
+    }
+
+    .results .module .muted {
+      font-size: 12px;
+    }
+
+    .results .price-box {
+      padding: 24px 28px;
+      gap: 22px;
+      margin-top: 2px;
+    }
+
+    .results .price {
+      font-size: clamp(32px, 4.2vw, 46px);
+    }
+
+    .results .compare strong {
+      font-size: clamp(28px, 3.6vw, 38px);
+    }
+
+    .results .form-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .loss-box {
+      display: grid;
+      gap: 16px;
+      padding: 20px;
+      border: 1px solid #d4e3e8;
+      border-radius: 18px;
+      background: var(--blue-soft);
+    }
+
+    .loss-total {
+      color: var(--green);
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 700;
+    }
+
+    .bars {
+      display: grid;
+      gap: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(21, 79, 74, 0.16);
+    }
+
+    .bar-track {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: inherit;
+    }
+
+    .red {
+      background: #b9473d;
+    }
+
+    .amber {
+      background: var(--gold);
+    }
+
+    .orange {
+      background: var(--orange);
+    }
+
+    .notice,
+    .success-note {
+      display: flex;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 16px;
+      line-height: 1.45;
+    }
+
+    .notice {
+      background: #fff7dc;
+      border: 1px solid #ead79a;
+      color: #74602c;
+    }
+
+    .success-note {
+      background: #edf8f2;
+      border: 1px solid #c7e7d4;
+      color: #28513f;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    .module-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .module {
+      display: flex;
+      align-items: start;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid rgba(21, 79, 74, 0.18);
+      border-radius: 14px;
+      background: #f4faf6;
+    }
+
+    .price-box {
+      background: var(--green-dark);
+      color: var(--white);
+    }
+
+    .price-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 30px 34px;
+      border-radius: 30px;
+      box-shadow: 0 22px 44px rgba(47, 76, 61, 0.18);
+    }
+
+    .price {
+      margin-top: 4px;
+      color: var(--white);
+      font-size: clamp(34px, 5vw, 58px);
+      font-weight: 760;
+      line-height: 0.96;
+    }
+
+    .soft {
+      color: var(--mint);
+      font-size: 12px;
+      font-weight: 650;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .compare {
+      min-width: 220px;
+      padding-left: 34px;
+      border-left: 1px solid rgba(200, 234, 213, 0.48);
+      text-align: right;
+    }
+
+    .compare strong {
+      color: var(--gold);
+      display: block;
+      font-size: clamp(30px, 4vw, 46px);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .offer {
+      background: var(--blue-soft);
+      color: var(--ink);
+      padding: 40px;
+      border-radius: 28px;
+      border: 2px solid var(--green);
+      box-shadow: 0 18px 38px rgba(32, 42, 49, 0.06);
+    }
+
+    .offer h2 {
+      max-width: 720px;
+      color: var(--ink);
+    }
+
+    .offer .soft {
+      color: var(--green);
+    }
+
+    .method-note {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(220, 234, 241, 0.48);
+      color: #50606a;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .conversion-note {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #b7e4cf;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .offer label {
+      color: var(--green);
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px 14px;
+      border: 1px solid rgba(21, 79, 74, 0.18);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .field input::placeholder {
+      color: rgba(109, 125, 132, 0.68);
+    }
+
+    .field input:focus {
+      box-shadow: 0 0 0 3px rgba(21, 79, 74, 0.12);
+    }
+
+    .consent {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .consent input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--green);
+    }
+
+    .error {
+      display: block;
+      min-height: 18px;
+      margin-top: 5px;
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    .white-btn {
+      min-height: 50px;
+      padding: 13px 26px;
+      border: 0;
+      border-radius: 13px;
+      background: var(--white);
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .repeat {
+      display: block;
+      margin: 6px auto 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      text-decoration: underline;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 24px;
+      border-top: 1px solid var(--line);
+      background: var(--paper);
+      color: #8a98a4;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+    }
+
+    .spin {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--green);
+      border-top-color: transparent;
+      border-radius: 999px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .results {
+        height: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .results > .panel,
+      .results > .offer {
+        overflow: visible;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .header {
+        padding: 14px 16px;
+      }
+
+      .header-actions {
+        gap: 8px;
+      }
+
+      .telegram-btn {
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 9px;
+        font-size: 12px;
+      }
+
+      main {
+        padding: 18px;
+        justify-content: flex-start;
+      }
+
+      .panel,
+      .offer {
+        padding: 24px;
+        border-radius: 20px;
+      }
+
+      .quiz-card {
+        height: auto;
+        min-height: calc(100vh - 160px);
+      }
+
+      .features,
+      .module-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .between {
+        align-items: flex-start;
+      }
+
+      .slider-box .between {
+        display: grid;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .white-btn {
+        width: 100%;
+      }
+
+      .price-box {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .compare {
+        min-width: 0;
+        padding-left: 0;
+        padding-top: 18px;
+        border-left: 0;
+        border-top: 1px solid rgba(183, 228, 207, 0.45);
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-mark">ФД</div>
+        <span>Финансовый директор на аутсорсе</span>
+      </div>
+      <div class="header-actions">
+        <div id="step-pill" class="step-pill" hidden></div>
+        <a class="telegram-btn" href="https://t.me/LarisaPap" target="_blank" rel="noopener noreferrer">Обсудить задачу</a>
+      </div>
+    </header>
+    <div id="progress" class="progress" hidden><div id="progress-bar" class="progress-bar"></div></div>
+    <main id="app"></main>
+    <footer>Финансовый директор на аутсорсе &bull; Все права защищены</footer>
+  </div>
+
+  <script>
+    const state = {
+      step: 0,
+      answers: { escrow: null, pricing: null, cost: null },
+      portfolioSize: 2500,
+      creditLine: 1500,
+      formData: { phone: "", email: "" },
+      phoneError: "",
+      emailError: "",
+      consentError: "",
+      consent: false,
+      isSubmitting: false,
+      isSubmitted: false
+    };
+
+    const app = document.querySelector("#app");
+    const stepPill = document.querySelector("#step-pill");
+    const progress = document.querySelector("#progress");
+    const progressBar = document.querySelector("#progress-bar");
+
+    const questions = {
+      escrow: {
+        step: 1,
+        pain: "Боль №1 из 3",
+        title: "Проектное финансирование и эскроу",
+        question: "Каково текущее соотношение средств на счетах эскроу к выбранному лимиту кредита?",
+        back: 0,
+        next: 2,
+        options: [
+          ["a", "Эскроу стабильно превышает выборку, ставка минимальна.", "Оптимальное состояние покрытия проектного финансирования."],
+          ["b", "Выборка опережает эскроу, платим рыночную ставку на разницу.", "Возникает дополнительная процентная нагрузка на денежный поток."],
+          ["c", "Мониторинг эффективной ставки нерегулярен, нет прогнозируемой управляемости.", "Отсутствует автоматический план-фактный анализ ковенант и ставок."]
+        ]
+      },
+      pricing: {
+        step: 2,
+        pain: "Боль №2 из 3",
+        title: "Ценообразование и рассрочки",
+        question: "Как отдел продаж стимулирует спрос в текущих условиях?",
+        back: 1,
+        next: 3,
+        options: [
+          ["a", "Продажи идут строго по финмодели, рассрочки синхронизированы с графиком стройки.", "Соблюдается баланс ликвидности и маржинальности."],
+          ["b", "Используем агрессивные рассрочки и скидки без жесткого контроля влияния на итоговую маржинальность.", "Есть риск кассовых разрывов и заморозки оборотного капитала."],
+          ["c", "Финансовый отдел не контролирует скидки коммерческого блока.", "Ценообразование отдано на откуп отделу продаж."]
+        ]
+      },
+      cost: {
+        step: 3,
+        pain: "Боль №3 из 3",
+        title: "Контроль себестоимости",
+        question: "Насколько фактическая стоимость строительства превышает первоначальную смету к концу проекта?",
+        back: 2,
+        next: 4,
+        options: [
+          ["a", "Отклонение в пределах 2-5%.", "Строгий сметный контроль и работа с подрядчиками."],
+          ["b", "Отклонение 10-20% и более, план-фактный анализ запаздывает.", "Рост цен на материалы съедает запланированную прибыль."],
+          ["c", "Учет ведется котловым методом, точная себестоимость объекта неясна.", "Невозможно определить маржинальность конкретной очереди или корпуса."]
+        ]
+      }
+    };
+
+    function icon(name, attrs = "") {
+      return `<i class="icon" data-lucide="${name}" ${attrs}></i>`;
+    }
+
+    function setStep(step) {
+      state.step = step;
+      render(true);
+      track("quiz_step_view", { step });
+    }
+
+    function track(name, payload = {}) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: name, ...payload });
+      window.dispatchEvent(new CustomEvent("cfo-offer-event", { detail: { name, payload } }));
+    }
+
+    function triggers() {
+      return {
+        escrow: state.answers.escrow === "b" || state.answers.escrow === "c",
+        pricing: state.answers.pricing === "b" || state.answers.pricing === "c",
+        cost: state.answers.cost === "b" || state.answers.cost === "c"
+      };
+    }
+
+    function financials() {
+      const active = triggers();
+      const baseCost = 100000;
+      const totalMonthly = baseCost + (active.escrow ? 100000 : 0) + (active.pricing ? 100000 : 0) + (active.cost ? 100000 : 0);
+      const totalAnnual = totalMonthly * 12;
+      const lossEscrow = active.escrow ? state.creditLine * 1000000 * 0.015 : 0;
+      const lossPricing = active.pricing ? state.portfolioSize * 1000000 * 0.01 : 0;
+      const lossCosts = active.cost ? state.portfolioSize * 1000000 * 0.01 : 0;
+      const totalAnnualLoss = lossEscrow + lossPricing + lossCosts;
+      const activeTriggersCount = Object.values(active).filter(Boolean).length;
+      return {
+        totalMonthly,
+        totalAnnual,
+        lossEscrow,
+        lossPricing,
+        lossCosts,
+        totalAnnualLoss,
+        activeTriggersCount,
+        efficiencyPercent: Math.max(0, 100 - activeTriggersCount * 25)
+      };
+    }
+
+    function formatMillionsToBln(value) {
+      return `${(value / 1000).toFixed(1).replace(".", ",")} млрд ₽`;
+    }
+
+    function formatMillionsToMlnOrBln(value) {
+      const mln = value / 1000000;
+      if (mln >= 1000) return `${(mln / 1000).toFixed(1).replace(".", ",")} млрд ₽`;
+      return `${mln.toFixed(1).replace(".", ",")} млн ₽`;
+    }
+
+    function formatRublePrice(value) {
+      return new Intl.NumberFormat("ru-RU").format(value) + " ₽/мес.";
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function pageStart() {
+      return `
+        <section class="screen panel stack quiz-card">
+          <div class="eyebrow">${icon("sparkles")} Экспресс-аудит девелопмента</div>
+          <div class="stack">
+            <h1>Узнайте сколько вы переплачиваете или теряете без системного CFO.</h1>
+            <p class="lead">Пройдите аудит из 4 вопросов и получите индивидуальную карту финансовых рисков вашего бизнеса.</p>
+          </div>
+          <div class="features">
+            <div class="feature"><div class="feature-title">Эскроу и банки</div><p class="muted">Контроль выборки и эффективной ставки</p></div>
+            <div class="feature"><div class="feature-title">Рассрочки и маржа</div><p class="muted">Защита юнит-экономики продаж</p></div>
+            <div class="feature"><div class="feature-title">Контроль стройки</div><p class="muted">Управление бюджетом и себестоимостью</p></div>
+          </div>
+          <div class="row">
+            <button class="primary-btn" data-step="1"><span>Рассчитать финансовые потери</span>${icon("arrow-right")}</button>
+            <span class="muted">4 коротких вопроса, без регистрации</span>
+          </div>
+        </section>
+      `;
+    }
+
+    function pageQuestion(key) {
+      const q = questions[key];
+      return `
+        <section class="screen panel stack quiz-card">
+          <div class="small-stack">
+            <div class="eyebrow">${q.pain}</div>
+            <h2>${q.title}</h2>
+          </div>
+          <div class="question">${q.question}</div>
+          <div class="options">
+            ${q.options.map(([id, title, desc]) => `
+              <button class="option ${state.answers[key] === id ? "selected" : ""}" data-answer="${key}:${id}:${q.next}">
+                <span class="radio">${icon("check")}</span>
+                <span><strong>${title}</strong><br><span class="muted">${desc}</span></span>
+              </button>
+            `).join("")}
+          </div>
+          <div class="row between">
+            <button class="secondary-btn" data-step="${q.back}">Назад</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function sliderBox(id, label, value, min, max, step, ticks, chips) {
+      return `
+        <div class="slider-box">
+          <div class="row between">
+            <h3>${label}</h3>
+            <span class="value" data-value-for="${id}">${formatMillionsToBln(value)}</span>
+          </div>
+          <input id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${value}" data-range="${id}">
+          <div class="ticks">${ticks.map(t => `<span>${t}</span>`).join("")}</div>
+          <div class="chips">
+            ${chips.map(v => `<button class="chip ${value === v ? "active" : ""}" data-range-chip="${id}:${v}">${v / 1000} млрд ₽</button>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function pageScale() {
+      return `
+        <section class="screen panel stack quiz-card">
+          <div class="small-stack">
+            <div class="eyebrow">Масштаб бизнеса</div>
+            <h2>Параметры портфеля проектов</h2>
+            <p class="muted">Укажите параметры для точного расчета потенциальных финансовых потерь в рублях.</p>
+          </div>
+          <div class="stack">
+            ${sliderBox("portfolioSize", "Объем текущего портфеля проектов", state.portfolioSize, 500, 10000, 500, ["0,5 млрд ₽", "5 млрд ₽", "10 млрд ₽"], [1000, 3000, 5000, 10000])}
+            ${sliderBox("creditLine", "Кредитный портфель", state.creditLine, 300, 8500, 200, ["0,3 млрд ₽", "4,5 млрд ₽", "8,5 млрд ₽"], [1000, 3000, 5000, 8500])}
+          </div>
+          <div class="row between">
+            <button class="secondary-btn" data-step="3">Назад</button>
+            <button class="primary-btn" data-step="5"><span>Сформировать отчет</span>${icon("arrow-right")}</button>
+          </div>
+        </section>
+      `;
+    }
+
+    function bar(label, value, total, tone) {
+      if (value <= 0) return "";
+      return `
+        <div class="small-stack">
+          <div class="label-row"><span>${label}</span><strong>${formatMillionsToMlnOrBln(value)}</strong></div>
+          <div class="bar-track"><div class="bar ${tone}" style="width: ${(value / total) * 100}%"></div></div>
+        </div>
+      `;
+    }
+
+    function module(title, desc) {
+      return `
+        <div class="module">
+          ${icon("circle-check")}
+          <div><strong>${title}</strong><p class="muted">${desc}</p></div>
+        </div>
+      `;
+    }
+
+    function pageResults() {
+      const active = triggers();
+      const f = financials();
+      return `
+        <section class="screen results">
+          <div class="panel stack">
+            <div class="eyebrow">${icon("award")} Результаты экспресс-аудита</div>
+            <h2>Ваша финансовая функция работает на <span style="color: var(--green)">${f.efficiencyPercent}%</span> от потенциала.</h2>
+            <div class="stack">
+              <div class="section-title">${icon("shield-alert")} Потенциальные финансовые потери в год:</div>
+              ${f.totalAnnualLoss > 0 ? `
+                <div class="loss-box">
+                  <div class="label-row"><span>Оценка годовых потерь:</span><span class="loss-total">${formatMillionsToMlnOrBln(f.totalAnnualLoss)}</span></div>
+                  <div class="bars">
+                    ${bar("Потери на эскроу (неэфф. ставка)", f.lossEscrow, f.totalAnnualLoss, "red")}
+                    ${bar("Потери на рассрочках и марже", f.lossPricing, f.totalAnnualLoss, "amber")}
+                    ${bar("Потери на себестоимости (превышение)", f.lossCosts, f.totalAnnualLoss, "orange")}
+                  </div>
+                </div>
+                <div class="notice">${icon("circle-alert")}<p><strong>Дисклеймер:</strong> расчет является предварительным и основан на среднерыночных отклонениях (1.5% от кредитной линии и 1% от выручки). Точная оцифровка требует аудита вашей финансовой модели.</p></div>
+                <div class="method-note"><strong>Методика:</strong> это экспресс-оценка для первичной диагностики. Коэффициенты в модели нужно заменить на фактические ставки, графики выборки, структуру рассрочек и сметные отклонения вашей компании при полноценном аудите.</div>
+              ` : `
+                <div class="success-note">${icon("circle-check")}<p><strong>Критических потерь не выявлено</strong><br>Учет выстроен идеально. CFO нужен для защиты маржинальности новых очередей и структурирования сделок с банками.</p></div>
+                <div class="method-note"><strong>Методика:</strong> вывод основан только на выбранных ответах и не заменяет аудит финансовой модели, кредитных договоров и план-фактного анализа.</div>
+              `}
+            </div>
+            <div class="stack">
+              <div class="price-box">
+                <div>
+                  <div class="soft">Стоимость услуги по вашей конфигурации</div>
+                  <div class="price">${formatRublePrice(f.totalMonthly)}</div>
+                  <p class="soft" style="text-transform:none">Годовой бюджет CFO: <strong>${formatMillionsToMlnOrBln(f.totalAnnual)}</strong></p>
+                </div>
+                ${f.totalAnnualLoss > 0 ? `
+                  <div class="compare">
+                    <span class="soft">Сравнение с потерями</span>
+                    <strong>В ${(f.totalAnnualLoss / f.totalAnnual).toFixed(1)} раз</strong>
+                    <p class="soft" style="text-transform:none">меньше предотвратимых потерь (${formatMillionsToMlnOrBln(f.totalAnnualLoss)})</p>
+                  </div>
+                ` : ""}
+              </div>
+              <div class="section-title">${icon("calculator")} Персональная конфигурация функционала CFO:</div>
+              <div class="module-grid">
+                ${module("Управленческий учет", "Координация бухгалтерии и фин. отчетность")}
+                ${active.escrow ? module("Управление банковским финансированием", "Контроль ковенант, выборки и эскроу") : ""}
+                ${active.pricing ? module("Юнит-экономика и контроль продаж", "Синхронизация рассрочек и маржинальности") : ""}
+                ${active.cost ? module("Бюджетирование и контроль стройки", "План-фактный анализ смет и затрат") : ""}
+                ${f.efficiencyPercent === 100 ? module("Консультационное сопровождение", "Выработка стратегических решений по новым инвест-проектам") : ""}
+              </div>
+            </div>
+          </div>
+          <div class="offer stack">
+            <div class="small-stack">
+              <div class="soft">Персональный оффер</div>
+              <h2>Получите расчет рисков и короткий план действий CFO по вашим ответам.</h2>
+              <p class="conversion-note">PDF-структура: выявленные зоны риска, расчет потенциальных потерь, рекомендуемый состав финансовой функции и первый шаг для проверки цифр.</p>
+            </div>
+            ${state.isSubmitted ? `
+              <div class="success-note">${icon("check")}<p><strong>Заявка сформирована.</strong><br>В демо-версии данные не отправляются во внешнюю CRM или почту. Для боевого запуска подключите обработчик формы, чтобы отправлять расчет на email: <strong>${escapeHtml(state.formData.email)}</strong>.</p></div>
+            ` : `
+              <form id="lead-form" class="stack">
+                <div class="form-grid">
+                  <div class="field"><label>Email для расчета</label><input name="email" required placeholder="ivan@developer.ru" value="${escapeHtml(state.formData.email)}"><span class="error" data-error-for="email">${escapeHtml(state.emailError)}</span></div>
+                  <div class="field"><label>Телефон для уточнения, необязательно</label><input name="phone" placeholder="+7 (___) ___-__-__" value="${escapeHtml(state.formData.phone)}"><span class="error" data-error-for="phone">${escapeHtml(state.phoneError)}</span></div>
+                </div>
+                <label class="consent"><input name="consent" type="checkbox" ${state.consent ? "checked" : ""}> <span>Согласен(на) на обработку персональных данных и получение материалов по результатам аудита.</span></label>
+                <span class="error" data-error-for="consent">${escapeHtml(state.consentError)}</span>
+                <button class="white-btn" type="submit" ${state.isSubmitting ? "disabled" : ""}>${state.isSubmitting ? `<span class="row">${"<span class='spin'></span>"} Формирование заявки...</span>` : `Получить расчет ${icon("send")}`}</button>
+              </form>
+            `}
+          </div>
+          <button class="repeat" data-step="0">Пройти аудит заново</button>
+        </section>
+      `;
+    }
+
+    function hydrate() {
+      document.querySelectorAll("[data-step]").forEach(button => {
+        button.addEventListener("click", () => {
+          track("quiz_navigation_click", { targetStep: Number(button.dataset.step) });
+          setStep(Number(button.dataset.step));
+        });
+      });
+
+      document.querySelectorAll("[data-answer]").forEach(button => {
+        button.addEventListener("click", () => {
+          const [key, id, next] = button.dataset.answer.split(":");
+          state.answers[key] = id;
+          document.querySelectorAll("[data-answer]").forEach(option => option.classList.remove("selected"));
+          button.classList.add("selected");
+          track("quiz_answer_click", { question: key, answer: id });
+          setTimeout(() => setStep(Number(next)), 140);
+        });
+      });
+
+      document.querySelectorAll("[data-range]").forEach(input => {
+        input.addEventListener("input", event => {
+          updateScale(event.target.dataset.range, Number(event.target.value));
+        });
+      });
+
+      document.querySelectorAll("[data-range-chip]").forEach(button => {
+        button.addEventListener("click", () => {
+          const [key, value] = button.dataset.rangeChip.split(":");
+          updateScale(key, Number(value));
+          track("scale_chip_click", { field: key, value: Number(value) });
+        });
+      });
+
+      const form = document.querySelector("#lead-form");
+      if (form) {
+        let formStarted = false;
+        form.addEventListener("input", event => {
+          const field = event.target.name;
+          if (!field) return;
+          if (!formStarted && field !== "consent") {
+            formStarted = true;
+            track("lead_form_start", { field });
+          }
+          if (field === "phone") {
+            const raw = event.target.value.replace(/\D/g, "").replace(/^[78]/, "").slice(0, 10);
+            let formatted = "+7 ";
+            if (raw.length > 0) formatted += "(" + raw.slice(0, 3);
+            if (raw.length >= 4) formatted += ") " + raw.slice(3, 6);
+            if (raw.length >= 7) formatted += "-" + raw.slice(6, 8);
+            if (raw.length >= 9) formatted += "-" + raw.slice(8, 10);
+            state.formData.phone = raw.length ? formatted : "";
+            state.phoneError = "";
+            event.target.value = state.formData.phone;
+            updateError("phone", state.phoneError);
+            return;
+          }
+          state.formData[field] = event.target.value;
+          if (field === "email") {
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(event.target.value)) {
+              state.emailError = "";
+              updateError("email", state.emailError);
+            }
+          }
+        });
+
+        form.addEventListener("focusout", event => {
+          if (event.target.name === "email" && state.formData.email) {
+            state.emailError = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.formData.email) ? "" : "Введите корректный email";
+            updateError("email", state.emailError);
+          }
+          if (event.target.name === "phone") {
+            const raw = state.formData.phone.replace(/\D/g, "").replace(/^7/, "");
+            state.phoneError = raw.length === 0 || raw.length === 10 ? "" : "Введите корректный номер телефона";
+            updateError("phone", state.phoneError);
+          }
+        });
+
+        form.addEventListener("change", event => {
+          if (event.target.name === "consent") {
+            state.consent = event.target.checked;
+            state.consentError = state.consent ? "" : "Нужно согласие на обработку данных";
+            updateError("consent", state.consentError);
+          }
+        });
+
+        form.addEventListener("submit", event => {
+          event.preventDefault();
+          const rawPhone = state.formData.phone.replace(/\D/g, "").replace(/^7/, "");
+          state.emailError = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.formData.email) ? "" : "Введите корректный email";
+          state.phoneError = rawPhone.length === 0 || rawPhone.length === 10 ? "" : "Введите корректный номер телефона";
+          state.consentError = state.consent ? "" : "Нужно согласие на обработку данных";
+          updateError("email", state.emailError);
+          updateError("phone", state.phoneError);
+          updateError("consent", state.consentError);
+          if (state.phoneError || state.emailError || !state.formData.email || !state.consent) {
+            track("lead_form_error", {
+              hasEmailError: Boolean(state.emailError || !state.formData.email),
+              hasPhoneError: Boolean(state.phoneError),
+              hasConsent: state.consent
+            });
+            if (!state.consent) {
+              const consent = form.querySelector("[name='consent']");
+              consent.focus();
+            }
+            return;
+          }
+          state.isSubmitting = true;
+          render(false);
+          track("lead_form_submit", { demoMode: true });
+          setTimeout(() => {
+            state.isSubmitting = false;
+            state.isSubmitted = true;
+            render(true);
+          }, 900);
+        });
+      }
+
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function updateScale(key, value) {
+      state[key] = value;
+      const input = document.querySelector(`[data-range="${key}"]`);
+      const output = document.querySelector(`[data-value-for="${key}"]`);
+      if (input) input.value = value;
+      if (output) output.textContent = formatMillionsToBln(value);
+      document.querySelectorAll(`[data-range-chip^="${key}:"]`).forEach(button => {
+        button.classList.toggle("active", button.dataset.rangeChip === `${key}:${value}`);
+      });
+      track("scale_change", { field: key, value });
+    }
+
+    function updateError(field, message) {
+      const error = document.querySelector(`[data-error-for="${field}"]`);
+      if (error) error.textContent = message;
+    }
+
+    function render(animate = true) {
+      stepPill.hidden = !(state.step > 0 && state.step < 5);
+      progress.hidden = stepPill.hidden;
+      if (!stepPill.hidden) {
+        stepPill.textContent = `Шаг ${state.step} из 4`;
+        progressBar.style.width = `${(state.step / 4) * 100}%`;
+      }
+
+      const pages = [
+        pageStart,
+        () => pageQuestion("escrow"),
+        () => pageQuestion("pricing"),
+        () => pageQuestion("cost"),
+        pageScale,
+        pageResults
+      ];
+      app.innerHTML = pages[state.step]();
+      const screen = app.querySelector(".screen");
+      if (screen && animate) {
+        screen.classList.add("is-entering");
+      }
+      hydrate();
+    }
+
+    render();
+  </script>
+</body>
+</html>
